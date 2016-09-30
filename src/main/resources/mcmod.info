@@ -1,0 +1,16 @@
+[
+{
+  "modid": "EntityBlocker",
+  "name": "EntityBlocker",
+  "description": "This mod will block entity from spawning",
+  "version": "1.1.0MC1.7.10",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["dohyun22"],
+  "credits": "dohyun22",
+  "logoFile": "/assets/EntityBlocker/BElogo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
