@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid="EntityBlocker", name="EntityBlocker", version="1.1.0MC1.7.10", dependencies="required-after:FML", acceptableRemoteVersions="*")
+@Mod(modid="EntityBlocker", name="EntityBlocker", version="1.1.1MC1.7.10", dependencies="required-after:FML", acceptableRemoteVersions="*")
 public class EntityBlocker
 {
     public static Property bannedEntities;
