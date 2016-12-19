@@ -13,16 +13,17 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.config.Property;
 
-public class modCommands extends CommandBase{
+public class ModCommands extends CommandBase{
 	private List aliases;
-	private final String moreInfo = "Type 」e/entityblocker help」f or 」e/ebl help」f for more info.";
+	private final String moreInfo = "Type " + EnumChatFormatting.YELLOW + "/entityblocker help" + EnumChatFormatting.WHITE + " or " + EnumChatFormatting.YELLOW + "/ebl help" + EnumChatFormatting.WHITE + " for more info.";
 	
-	public modCommands () {
+	public ModCommands () {
 		this.aliases = new ArrayList();
 		this.aliases.add("ebl");
 		this.aliases.add("entityblocker");
@@ -54,12 +55,12 @@ public class modCommands extends CommandBase{
 			String arg0 = strings[0].toLowerCase();
 			if (arg0.equals("help")) {
 				sendMsg(sender, new String [] {
-						"」b:: EntityBlocker Commands ::",
-						"」e/ebl list 」f-Shows the list of banned entities.",
-						"」e/ebl list add <Entity Name> 」f-Adds the entity to the blacklist. (Case-sensitive)",
-						"」e/ebl list del <Entity Name> 」f-Removes the entity from the blacklist. (Case-sensitive)",
-						"」e/ebl remove 」f-Removes banned entities from the loaded chunks",
-						"」e/ebl reload 」f-Reloads the config"
+						EnumChatFormatting.AQUA + ":: EntityBlocker Commands ::",
+						EnumChatFormatting.YELLOW + "/ebl list " + EnumChatFormatting.WHITE + "-Shows the list of banned entities.",
+						EnumChatFormatting.YELLOW + "/ebl list add <Entity Name> " + EnumChatFormatting.WHITE +"-Adds the entity to the blacklist. (Case-sensitive)",
+						EnumChatFormatting.YELLOW + "/ebl list del <Entity Name> " + EnumChatFormatting.WHITE + "-Removes the entity from the blacklist. (Case-sensitive)",
+						EnumChatFormatting.YELLOW + "/ebl remove " + EnumChatFormatting.WHITE + "-Removes banned entities from the loaded chunks",
+						EnumChatFormatting.YELLOW + "/ebl reload " + EnumChatFormatting.WHITE + "-Reloads the config"
 				});
 				
 			} else if (arg0.equals("list")) {
@@ -71,7 +72,7 @@ public class modCommands extends CommandBase{
 					}
 					
 					sendMsg(sender, new String [] {
-							"」b:: List of banned entities ::",
+							EnumChatFormatting.AQUA + ":: List of banned entities ::",
 							str
 					});
 				} else if (strings.length > 2) {
@@ -81,19 +82,19 @@ public class modCommands extends CommandBase{
 						String msg = "";
 						
 						if (remove) {
-							msg = b ? "」aSuccessfully removed " + strings[2] + " from the blacklist" 
-									: "」cCan't remove " + strings[2] + " from the blacklist!";
+							msg = b ? EnumChatFormatting.GREEN + "Successfully removed " + strings[2] + " from the blacklist" 
+									: EnumChatFormatting.RED + "Can't remove " + strings[2] + " from the blacklist!";
 						} else {
-							msg = b ? "」aSuccessfully added " + strings[2] + " to the blacklist" 
-									: "」cCan't add " + strings[2] + " to the blacklist!";
+							msg = b ? EnumChatFormatting.GREEN + "Successfully added " + strings[2] + " to the blacklist" 
+									: EnumChatFormatting.RED + "Can't add " + strings[2] + " to the blacklist!";
 						}
 						
 						sendMsg(sender, msg);
 					} else {
-						sendMsg(sender, "」cInvalied arguments! 」f" + moreInfo);
+						sendMsg(sender, EnumChatFormatting.RED + "Invalied arguments! " + EnumChatFormatting.WHITE + moreInfo);
 					}
 				} else {
-					sendMsg(sender, "」cNot enough arguments! 」f" + moreInfo);
+					sendMsg(sender, EnumChatFormatting.RED + "Not enough arguments! " + EnumChatFormatting.WHITE + moreInfo);
 				}
 			} else if (arg0.equals("remove")) {
 				int count = 0;
@@ -110,15 +111,15 @@ public class modCommands extends CommandBase{
 					}
 				}
 				
-				sendMsg(sender, "」eRemoved " + count + " banned entities!");
+				sendMsg(sender, EnumChatFormatting.YELLOW + "Removed " + count + " banned entities!");
 			} else if (arg0.equals("reload")) {
 				reloadConfig();
-				sendMsg(sender, "」aSuccessfully Reloaded the config");
+				sendMsg(sender, EnumChatFormatting.GREEN + "Successfully Reloaded the config");
 			} else {
-				sendMsg(sender, "」cInvalied arguments! 」f" + moreInfo);
+				sendMsg(sender, EnumChatFormatting.RED + "Invalied arguments! " + EnumChatFormatting.WHITE + moreInfo);
 			}
 		} else {
-			sendMsg(sender, "」cNot enough arguments! 」f" + moreInfo);
+			sendMsg(sender, EnumChatFormatting.RED + "Not enough arguments! " + EnumChatFormatting.WHITE + moreInfo);
 		}
 	}
 
@@ -138,11 +139,15 @@ public class modCommands extends CommandBase{
 				ret = getListOfStringsMatchingLastWord(str, new String[] {"add", "del"});
 			}
 		} else if (str.length == 3) {
-			if ("list".equals(str[0]) && "del".equals(str[1])) {
-				String[] s = new String[EntityBlocker.entities.size()];
-				for (int i = 0; i < s.length; i++)
-					s[i] = EntityBlocker.entities.get(i);
-				ret = getListOfStringsMatchingLastWord(str, s);
+			if ("list".equals(str[0])) {
+				if ("add".equals(str[1])) {
+					ret = getListOfStringsMatchingLastWord(str, (String[])EntityList.func_151515_b().toArray(new String[0]));
+				} else if ("del".equals(str[1])) {
+					String[] s = new String[EntityBlocker.entities.size()];
+					for (int i = 0; i < s.length; i++)
+						s[i] = EntityBlocker.entities.get(i);
+					ret = getListOfStringsMatchingLastWord(str, s);
+				}
 			}
 		}
 		
