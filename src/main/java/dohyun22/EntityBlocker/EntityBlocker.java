@@ -44,7 +44,7 @@ public class EntityBlocker
 	
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event) {
-		event.registerServerCommand(new modCommands());
+		event.registerServerCommand(new ModCommands());
 	}
 	
 	public static List<String> parseString(String str) {
